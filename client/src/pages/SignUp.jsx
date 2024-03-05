@@ -13,7 +13,7 @@ export default function SignUp() {
     e.preventDefault();
     try {
       setLoaging(true);
-      const res = await fetch('api/auth/sign-up', {
+      const res = await fetch('api/auth/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -28,7 +28,7 @@ export default function SignUp() {
       }
       setLoaging(false);
       setError(null);
-      navigate('/sign-in');
+      navigate('/signin');
     } catch (error) {
       setLoaging(false);
       setError(error.message);
@@ -65,12 +65,12 @@ export default function SignUp() {
           disabled={loaging}
           className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
         >
-          {loaging ? 'Cadastrando...' : 'Cadastrar'}
+          {loaging ? 'Carregando...' : 'Cadastrar'}
         </button>
       </form>
       <div className="flex mt-5 gap-2">
         <p>Já possui uma conta?</p>
-        <Link to="/sign-in">
+        <Link to="/signin">
           <span className="text-blue-700">Entrar</span>
         </Link>
       </div>
