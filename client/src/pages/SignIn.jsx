@@ -1,18 +1,20 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice.js';
 
 export default function SignIn() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formData, setFormData] = React.useState({});
-  const [error, setError] = React.useState(false);
-  const [loaging, setLoaging] = React.useState(false);
+  const { error, loaging } = useSelector(state => state.user);
   const handleChange = ({ target }) => {
     setFormData({ ...formData, [target.id]: target.value });
   };
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      setLoaging(true);
+      dispatch(signInStart());
       const res = await fetch('api/auth/signin', {
         method: 'POST',
         headers: {
@@ -22,16 +24,13 @@ export default function SignIn() {
       });
       const data = await res.json();
       if (data.success === false) {
-        setError(data.message);
-        setLoaging(false);
+        dispatch(signInFailure(data.message));
         return;
       }
-      setLoaging(false);
-      setError(null);
+      dispatch(signInSuccess(data));
       navigate('/');
     } catch (error) {
-      setLoaging(false);
-      setError(error.message);
+      dispatch(signInFailure(error.message));
     }
   };
 
@@ -63,7 +62,7 @@ export default function SignIn() {
       </form>
       <div className="flex mt-5 gap-2">
         <p>Não possui uma conta?</p>
-        <Link to="/signup">
+        <Link to="/sign-up">
           <span className="text-blue-700">Registrar</span>
         </Link>
       </div>
