@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import OAuth from '../components/OAuth';
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -67,6 +68,7 @@ export default function SignUp() {
         >
           {loaging ? 'Carregando...' : 'Cadastrar'}
         </button>
+        <OAuth />
       </form>
       <div className="flex mt-5 gap-2">
         <p>Já possui uma conta?</p>
