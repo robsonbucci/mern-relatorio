@@ -126,7 +126,6 @@ export default function SignUp() {
         >
           {loaging ? 'Carregando...' : 'Cadastrar'}
         </button>
-        <OAuth />
       </form>
       <div className="flex mt-5 gap-2">
         <p>Já possui uma conta?</p>

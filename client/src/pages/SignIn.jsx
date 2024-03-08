@@ -60,7 +60,6 @@ export default function SignIn() {
         >
           {loaging ? 'Carregando...' : 'Entrar'}
         </button>
-        <OAuth />
       </form>
       <div className="flex mt-5 gap-2">
         <p>Não possui uma conta?</p>
