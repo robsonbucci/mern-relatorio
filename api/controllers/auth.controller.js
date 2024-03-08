@@ -4,11 +4,17 @@ import { errorHandler } from '../utils/error.js';
 import jwt from 'jsonwebtoken';
 
 export const signup = async (req, res, next) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, firstName, lastName, phone, congregationId, isSecretary } =
+    req.body;
   const hashedPassword = bcryptjs.hashSync(password, 10);
   const newUser = new User({
-    username,
     email,
+    phone,
+    lastName,
+    username,
+    firstName,
+    isSecretary,
+    congregationId,
     password: hashedPassword,
   });
 
@@ -16,6 +22,21 @@ export const signup = async (req, res, next) => {
     await newUser.save();
     res.status(201).json({ message: 'Usuário criado com sucesso' });
   } catch (error) {
+    console.log('🚀  signup  error:', JSON.stringify(error, null, 2));
+    if (error?.keyPattern?.congregationId === 1)
+      return next(
+        new Error(errorHandler(409, 'Já há um secretário cadastrado na congregação informada'))
+      );
+
+    if (error?.keyPattern?.username === 1)
+      return next(new Error(errorHandler(409, 'Este nome de usuário já existe')));
+
+    if (error?.keyPattern?.email === 1)
+      return next(new Error(errorHandler(409, 'Este e-mail  já existe')));
+
+    if (error?.keyPattern?.phone === 1)
+      return next(new Error(errorHandler(409, 'Este telefone  já existe')));
+
     next(error);
   }
 };

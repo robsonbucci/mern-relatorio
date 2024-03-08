@@ -4,11 +4,18 @@ import OAuth from '../components/OAuth';
 
 export default function SignUp() {
   const navigate = useNavigate();
-  const [formData, setFormData] = React.useState({});
+  const [formData, setFormData] = React.useState({ isSecretary: false });
   const [error, setError] = React.useState(false);
   const [loaging, setLoaging] = React.useState(false);
+  const [isSecretary, setIsSecretary] = React.useState(false);
+
   const handleChange = ({ target }) => {
-    setFormData({ ...formData, [target.id]: target.value });
+    if (target.type === 'checkbox') {
+      setIsSecretary(target.checked);
+      setFormData({ ...formData, isSecretary: target.checked });
+    } else {
+      setFormData({ ...formData, [target.id]: target.value });
+    }
   };
   const handleSubmit = async e => {
     e.preventDefault();
@@ -29,6 +36,7 @@ export default function SignUp() {
       }
       setLoaging(false);
       setError(null);
+
       navigate('/sign-in');
     } catch (error) {
       setLoaging(false);
@@ -40,27 +48,77 @@ export default function SignUp() {
     <div className="p-3 mx-w-lg mx-auto">
       <h1 className="text-3xl text-center font-semibold my-7">Cadastro</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <input
-          type="text"
-          placeholder="username"
-          className="border p-3 rounded-lg"
-          id="username"
-          onChange={handleChange}
-        />
-        <input
-          type="email"
-          placeholder="email"
-          className="border p-3 rounded-lg"
-          id="email"
-          onChange={handleChange}
-        />
-        <input
-          type="password"
-          placeholder="password"
-          className="border p-3 rounded-lg"
-          id="password"
-          onChange={handleChange}
-        />
+        <fieldset className="flex flex-col gap-4 border p-3">
+          <legend className="text-lg font-semibold">Informações Pessoais</legend>
+
+          <input
+            type="text"
+            placeholder="Nome"
+            className="border p-3 rounded-lg"
+            id="firstName"
+            onChange={handleChange}
+          />
+          <input
+            type="text"
+            placeholder="Sobrenome"
+            className="border p-3 rounded-lg"
+            id="lastName"
+            onChange={handleChange}
+          />
+          <input
+            type="tel"
+            placeholder="Telefone (11) 99999-9999"
+            className="border p-3 rounded-lg"
+            id="phone"
+            onChange={handleChange}
+          />
+          <input
+            type="number"
+            placeholder="Número da congregação"
+            className="border p-3 rounded-lg"
+            id="congregationId"
+            onChange={handleChange}
+          />
+          <div className="border p-3 text-center font-semibold flex gap-4">
+            <label className="cursor-pointer text-slate-700" htmlFor="isSecretary">
+              Sou um secretário
+            </label>
+            <input
+              type="checkbox"
+              placeholder="Número da congregação"
+              className="border p-3 rounded-lg"
+              id="isSecretary"
+              onChange={handleChange}
+              checked={isSecretary}
+            />
+          </div>
+        </fieldset>
+
+        <fieldset className="flex flex-col gap-4 border p-3">
+          <legend className="text-lg font-semibold">Informações de Acesso</legend>
+          <input
+            type="text"
+            placeholder="Nome de usuário"
+            className="border p-3 rounded-lg"
+            id="username"
+            onChange={handleChange}
+          />
+          <input
+            type="email"
+            placeholder="E-mail"
+            className="border p-3 rounded-lg"
+            id="email"
+            onChange={handleChange}
+          />
+          <input
+            type="password"
+            placeholder="Senha"
+            className="border p-3 rounded-lg"
+            id="password"
+            onChange={handleChange}
+          />
+        </fieldset>
+
         {error && <p className="text-red-500 my-3 text-center">{error}</p>}
         <button
           disabled={loaging}

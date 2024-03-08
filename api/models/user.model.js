@@ -10,8 +10,26 @@ const userSchema = new mongoose.Schema(
       default:
         'https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=',
     },
+    lastName: { type: String, required: true },
+    firstName: { type: String, required: true },
+    isSecretary: { type: Boolean, default: false },
+    congregationId: { type: Number, required: true },
+    phone: { type: Number, required: true, unique: true },
   },
-  { timestamps: true }
+  { timestamps: true, dropDups: true }
+);
+
+userSchema.index(
+  {
+    congregationId: 1,
+    isSecretary: 1,
+  },
+  {
+    unique: true,
+    partialFilterExpression: {
+      isSecretary: true,
+    },
+  }
 );
 
 const User = mongoose.model('User', userSchema);
