@@ -4,8 +4,20 @@ import { errorHandler } from '../utils/error.js';
 import jwt from 'jsonwebtoken';
 
 export const signup = async (req, res, next) => {
-  const { username, email, password, firstName, lastName, phone, congregationId, isSecretary } =
-    req.body;
+  const {
+    username,
+    email,
+    password,
+    firstName,
+    lastName,
+    phone,
+    congregationIdentity,
+    congregationName,
+    congregationGroup,
+    privilege,
+    userType,
+    isSecretary,
+  } = req.body;
   const hashedPassword = bcryptjs.hashSync(password, 10);
   const newUser = new User({
     email,
@@ -14,28 +26,44 @@ export const signup = async (req, res, next) => {
     username,
     firstName,
     isSecretary,
-    congregationId,
+    congregationIdentity,
+    congregationName,
+    congregationGroup,
+    privilege,
+    userType,
     password: hashedPassword,
   });
 
   try {
-    await newUser.save();
+    const superintendent = await newUser.save();
+
+    await User.updateOne(
+      { _id: superintendent._id },
+      {
+        $set: {
+          superintendent: {
+            _id: superintendent._id,
+            superintendentName: `${superintendent.firstName} ${superintendent.lastName}`,
+          },
+        },
+      },
+      { new: true } // retorna documento atualizado
+    );
+
     res.status(201).json({ message: 'Usuário criado com sucesso' });
   } catch (error) {
-    console.log('🚀  signup  error:', JSON.stringify(error, null, 2));
-    if (error?.keyPattern?.congregationId === 1)
-      return next(
-        new Error(errorHandler(409, 'Já há um secretário cadastrado na congregação informada'))
-      );
+    const errorCodes = {
+      congregationId: 'Já há um secretário cadastrado na congregação informada',
+      username: 'Este nome de usuário já existe',
+      email: 'Este e-mail já existe',
+      phone: 'Este telefone já existe',
+    };
 
-    if (error?.keyPattern?.username === 1)
-      return next(new Error(errorHandler(409, 'Este nome de usuário já existe')));
-
-    if (error?.keyPattern?.email === 1)
-      return next(new Error(errorHandler(409, 'Este e-mail  já existe')));
-
-    if (error?.keyPattern?.phone === 1)
-      return next(new Error(errorHandler(409, 'Este telefone  já existe')));
+    const errorKey = Object.keys(error?.keyPattern || {}).find(key => errorCodes[key]);
+    if (errorKey) {
+      const errorMessage = errorCodes[errorKey];
+      return next(new Error(errorHandler(409, errorMessage)));
+    }
 
     next(error);
   }

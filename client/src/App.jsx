@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import Profile from './pages/Profile';
 import SignIn from './pages/SignIn';
+import Profile from './pages/Profile';
 import SignUp from './pages/SignUp';
-import About from './pages/About';
+import Publisher from './pages/Publisher';
 import Header from './components/Header';
 import PrivateRoute from './components/PrivateRoute';
 function App() {
@@ -12,7 +12,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
+        <Route path="/publisher" element={<Publisher />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route element={<PrivateRoute />}>

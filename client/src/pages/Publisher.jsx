@@ -72,8 +72,8 @@ export default function Publisher() {
           id="gender"
           onChange={handleChange}
         >
-          <option value="M">Masculino</option>
-          <option value="F">Feminino</option>
+          <option value="m">Masculino</option>
+          <option value="f">Feminino</option>
         </select>
 
         <fieldset className="flex flex-col gap-4 border p-3">

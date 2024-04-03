@@ -1,22 +1,54 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import OAuth from '../components/OAuth';
 
 export default function SignUp() {
   const navigate = useNavigate();
-  const [formData, setFormData] = React.useState({ isSecretary: false });
+  const [formData, setFormData] = React.useState({
+    isSecretary: false,
+    privilege: 'publicador',
+    userType: 'superintendente',
+  });
   const [error, setError] = React.useState(false);
   const [loaging, setLoaging] = React.useState(false);
   const [isSecretary, setIsSecretary] = React.useState(false);
+  const [privilege, setPrivilege] = React.useState('publicador');
+  const [phone, setPhone] = React.useState('');
+
+  console.log('🚀  SignUp  formData:', JSON.stringify(formData, null, 2));
+
+  const handlePhoneChange = input => {
+    let formattedInput;
+    if (input.length <= 10) {
+      // Formato (11)1234-1234
+      formattedInput = input.replace(/^(\d{2})(\d{4})(\d{4}).*/, '($1)$2-$3');
+    } else {
+      // Formato (11)99999-9999
+      formattedInput = input.replace(/^(\d{2})(\d{5})(\d{4}).*/, '($1)$2-$3');
+    }
+    setPhone(formattedInput);
+  };
 
   const handleChange = ({ target }) => {
-    if (target.type === 'checkbox') {
-      setIsSecretary(target.checked);
-      setFormData({ ...formData, isSecretary: target.checked });
-    } else {
-      setFormData({ ...formData, [target.id]: target.value });
+    const { id, checked, value } = target;
+    let updatedFormData = { ...formData };
+
+    if (id === 'phone') {
+      const phoneInput = value.replace(/\D/g, '');
+      handlePhoneChange(phoneInput);
+      updatedFormData[id] = phoneInput;
+    } else if (['regular', 'auxiliar', 'publicador'].includes(id)) {
+      setPrivilege(id);
+      updatedFormData['privilege'] = id;
+    } else if (id === 'isSecretary') {
+      setIsSecretary(checked);
+      updatedFormData[id] = checked;
+    } else if (!['regular', 'auxiliar', 'publicador', 'phone'].includes(id)) {
+      updatedFormData[id] = value.toString().toLowerCase().trim();
     }
+
+    setFormData(updatedFormData);
   };
+
   const handleSubmit = async e => {
     e.preventDefault();
     try {
@@ -53,7 +85,7 @@ export default function SignUp() {
 
           <input
             type="text"
-            placeholder="Nome"
+            placeholder="Primeiro Nome"
             className="border p-3 rounded-lg"
             id="firstName"
             onChange={handleChange}
@@ -67,31 +99,13 @@ export default function SignUp() {
           />
           <input
             type="tel"
-            placeholder="Telefone (11) 99999-9999"
+            placeholder="Telefone (apenas números)"
             className="border p-3 rounded-lg"
             id="phone"
-            onChange={handleChange}
+            value={phone}
+            onChange={({ target }) => handleChange({ target })}
+            maxLength={14}
           />
-          <input
-            type="number"
-            placeholder="Número da congregação"
-            className="border p-3 rounded-lg"
-            id="congregationId"
-            onChange={handleChange}
-          />
-          <div className="border p-3 text-center font-semibold flex gap-4">
-            <label className="cursor-pointer text-slate-700" htmlFor="isSecretary">
-              Sou um secretário
-            </label>
-            <input
-              type="checkbox"
-              placeholder="Número da congregação"
-              className="border p-3 rounded-lg"
-              id="isSecretary"
-              onChange={handleChange}
-              checked={isSecretary}
-            />
-          </div>
         </fieldset>
 
         <fieldset className="flex flex-col gap-4 border p-3">
@@ -117,6 +131,94 @@ export default function SignUp() {
             id="password"
             onChange={handleChange}
           />
+        </fieldset>
+
+        <fieldset className="flex flex-col gap-4 border p-3">
+          <legend className="text-lg font-semibold">Informações Congregacionais</legend>
+
+          <input
+            type="number"
+            placeholder="Número da congregação"
+            className="border p-3 rounded-lg"
+            id="congregationIdentity"
+            onChange={handleChange}
+          />
+
+          <input
+            type="text"
+            placeholder="Nome da congregação (FAVOR NÃO ABREVIAR)"
+            className="border p-3 rounded-lg"
+            id="congregationName"
+            onChange={handleChange}
+            maxLength={35}
+          />
+
+          <input
+            type="text"
+            placeholder="Nome do seu grupo congregacional"
+            className="border p-3 rounded-lg"
+            id="congregationGroup"
+            onChange={handleChange}
+            maxLength={20}
+          />
+        </fieldset>
+
+        <fieldset className="flex flex-col gap-4 border p-3">
+          <legend className="text-lg font-semibold">Selecione seu privilégio</legend>
+          <div className="border p-3 text-center font-semibold flex flex-col items-baseline gap-4">
+            <div className="flex gap-4">
+              <label className="cursor-pointer text-slate-700" htmlFor="isSecretary">
+                Secretário
+              </label>
+              <input
+                type="checkbox"
+                className="border p-3 rounded-lg"
+                id="isSecretary"
+                onChange={handleChange}
+                checked={isSecretary}
+              />
+            </div>
+            <div className="flex gap-4">
+              <label className="cursor-pointer text-slate-700" htmlFor="regular">
+                Pioneioro Regular
+              </label>
+              <input
+                type="radio"
+                className="border p-3 rounded-lg"
+                id="regular"
+                name="privilege"
+                onChange={handleChange}
+                checked={privilege === 'regular'}
+                maxLength={10}
+              />
+            </div>
+            <div className="flex gap-4">
+              <label className="cursor-pointer text-slate-700" htmlFor="auxiliar">
+                Pioneiro Auxiliar
+              </label>
+              <input
+                type="radio"
+                className="border p-3 rounded-lg"
+                id="auxiliar"
+                name="privilege"
+                onChange={handleChange}
+                checked={privilege === 'auxiliar'}
+              />
+            </div>
+            <div className="flex gap-4">
+              <label className="cursor-pointer text-slate-700" htmlFor="publicador">
+                Publicador
+              </label>
+              <input
+                type="radio"
+                className="border p-3 rounded-lg"
+                id="publicador"
+                name="privilege"
+                onChange={handleChange}
+                checked={privilege === 'publicador'}
+              />
+            </div>
+          </div>
         </fieldset>
 
         {error && <p className="text-red-500 my-3 text-center">{error}</p>}

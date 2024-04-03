@@ -10,7 +10,6 @@ export default function Profile() {
   const [filePerc, setFilePerc] = React.useState(0);
   const [fileUploadError, setFileUploadError] = React.useState(false);
   const [formdata, setFormdata] = React.useState({});
-  console.log('🚀  Profile  formdata:', formdata);
 
   // firebase storage
   // allow read;

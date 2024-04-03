@@ -2,26 +2,35 @@ import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema(
   {
+    userType: { type: String, required: true },
+    firstName: { type: String, required: true },
+    lastName: { type: String, required: true },
+    phone: { type: Number, required: true, unique: true },
     username: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     avatar: {
       type: String,
       default:
-        'https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=',
+        'https://firebasestorage.googleapis.com/v0/b/mern-relatorio.appspot.com/o/user-128.png?alt=media&token=cb057f95-2b74-4a4f-ad91-f03a890317ef',
     },
-    lastName: { type: String, required: true },
-    firstName: { type: String, required: true },
+    congregationIdentity: { type: Number, required: true },
+    congregationName: { type: String, required: true },
+    congregationGroup: { type: String, required: true },
     isSecretary: { type: Boolean, default: false },
-    congregationId: { type: Number, required: true },
-    phone: { type: Number, required: true, unique: true },
+    privilege: { type: String, default: 0 },
+    superintendent: {
+      _id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+      superintendentName: { type: String },
+    },
   },
   { timestamps: true, dropDups: true }
 );
-
+userSchema.index({ username: 1, email: 1 }, { unique: true });
+userSchema.index({ firstName: 1, lastName: 1 }, { unique: true });
 userSchema.index(
   {
-    congregationId: 1,
+    congregationIdentity: 1,
     isSecretary: 1,
   },
   {
