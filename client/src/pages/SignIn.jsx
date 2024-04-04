@@ -1,24 +1,25 @@
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice.js';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+
+import { signInFailure, signInStart, signInSuccess } from "../redux/user/userSlice.js";
 
 export default function SignIn() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formData, setFormData] = React.useState({});
-  const { error, loaging } = useSelector(state => state.user);
+  const { error, loaging } = useSelector((state) => state.user);
   const handleChange = ({ target }) => {
     setFormData({ ...formData, [target.id]: target.value });
   };
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       dispatch(signInStart());
-      const res = await fetch('api/auth/signin', {
-        method: 'POST',
+      const res = await fetch("api/auth/signin", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
@@ -28,7 +29,7 @@ export default function SignIn() {
         return;
       }
       dispatch(signInSuccess(data));
-      navigate('/');
+      navigate("/");
     } catch (error) {
       dispatch(signInFailure(error.message));
     }
@@ -57,7 +58,7 @@ export default function SignIn() {
           disabled={loaging}
           className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
         >
-          {loaging ? 'Carregando...' : 'Entrar'}
+          {loaging ? "Carregando..." : "Entrar"}
         </button>
       </form>
       <div className="flex mt-5 gap-2">

@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema(
     avatar: {
       type: String,
       default:
-        'https://firebasestorage.googleapis.com/v0/b/mern-relatorio.appspot.com/o/user-128.png?alt=media&token=cb057f95-2b74-4a4f-ad91-f03a890317ef',
+        "https://firebasestorage.googleapis.com/v0/b/mern-relatorio.appspot.com/o/user-128.png?alt=media&token=cb057f95-2b74-4a4f-ad91-f03a890317ef",
     },
     congregationIdentity: { type: Number, required: true },
     congregationName: { type: String, required: true },
@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema(
     isSecretary: { type: Boolean, default: false },
     privilege: { type: String, default: 0 },
     superintendent: {
-      _id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+      _id: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
       superintendentName: { type: String },
     },
   },
@@ -41,5 +41,5 @@ userSchema.index(
   }
 );
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model("User", userSchema);
 export default User;

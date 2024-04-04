@@ -1,10 +1,11 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
-import { app } from '../firebase';
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
+import React from "react";
+import { useSelector } from "react-redux";
+
+import { app } from "../firebase";
 
 export default function Profile() {
-  const { currentUser } = useSelector(state => state.user);
+  const { currentUser } = useSelector((state) => state.user);
   const fileRef = React.useRef(null);
   const [file, setFile] = React.useState(undefined);
   const [filePerc, setFilePerc] = React.useState(0);
@@ -23,26 +24,26 @@ export default function Profile() {
     }
   }, [file]);
 
-  const handleFileUpload = async file => {
+  const handleFileUpload = async (file) => {
     const storage = getStorage(app);
     const fileName = new Date().getTime() + file.name;
     const storageRef = ref(storage, fileName);
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     uploadTask.on(
-      'state_changed',
-      snapshot => {
+      "state_changed",
+      (snapshot) => {
         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         setFilePerc(Math.round(progress));
       },
-      error => {
+      () => {
         setFileUploadError(true);
       },
       () => {
-        getDownloadURL(uploadTask.snapshot.ref).then(downloadURL => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setFormdata({ ...formdata, avatar: downloadURL });
         });
-      }
+      },
     );
   };
 
@@ -71,7 +72,7 @@ export default function Profile() {
           ) : filePerc === 100 ? (
             <span className="text-green-700">Imagem carregada com sucesso!</span>
           ) : (
-            ''
+            ""
           )}
         </p>
 
