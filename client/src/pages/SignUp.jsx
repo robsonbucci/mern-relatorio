@@ -1,29 +1,29 @@
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function SignUp() {
   const navigate = useNavigate();
   const [formData, setFormData] = React.useState({
     isSecretary: false,
-    privilege: 'publicador',
-    userType: 'superintendente',
+    privilege: "publicador",
+    userType: "superintendente",
   });
   const [error, setError] = React.useState(false);
   const [loaging, setLoaging] = React.useState(false);
   const [isSecretary, setIsSecretary] = React.useState(false);
-  const [privilege, setPrivilege] = React.useState('publicador');
-  const [phone, setPhone] = React.useState('');
+  const [privilege, setPrivilege] = React.useState("publicador");
+  const [phone, setPhone] = React.useState("");
 
-  console.log('🚀  SignUp  formData:', JSON.stringify(formData, null, 2));
+  console.log("🚀  SignUp  formData:", JSON.stringify(formData, null, 2));
 
-  const handlePhoneChange = input => {
+  const handlePhoneChange = (input) => {
     let formattedInput;
     if (input.length <= 10) {
       // Formato (11)1234-1234
-      formattedInput = input.replace(/^(\d{2})(\d{4})(\d{4}).*/, '($1)$2-$3');
+      formattedInput = input.replace(/^(\d{2})(\d{4})(\d{4}).*/, "($1)$2-$3");
     } else {
       // Formato (11)99999-9999
-      formattedInput = input.replace(/^(\d{2})(\d{5})(\d{4}).*/, '($1)$2-$3');
+      formattedInput = input.replace(/^(\d{2})(\d{5})(\d{4}).*/, "($1)$2-$3");
     }
     setPhone(formattedInput);
   };
@@ -32,31 +32,31 @@ export default function SignUp() {
     const { id, checked, value } = target;
     let updatedFormData = { ...formData };
 
-    if (id === 'phone') {
-      const phoneInput = value.replace(/\D/g, '');
+    if (id === "phone") {
+      const phoneInput = value.replace(/\D/g, "");
       handlePhoneChange(phoneInput);
       updatedFormData[id] = phoneInput;
-    } else if (['regular', 'auxiliar', 'publicador'].includes(id)) {
+    } else if (["regular", "auxiliar", "publicador"].includes(id)) {
       setPrivilege(id);
-      updatedFormData['privilege'] = id;
-    } else if (id === 'isSecretary') {
+      updatedFormData["privilege"] = id;
+    } else if (id === "isSecretary") {
       setIsSecretary(checked);
       updatedFormData[id] = checked;
-    } else if (!['regular', 'auxiliar', 'publicador', 'phone'].includes(id)) {
+    } else if (!["regular", "auxiliar", "publicador", "phone"].includes(id)) {
       updatedFormData[id] = value.toString().toLowerCase().trim();
     }
 
     setFormData(updatedFormData);
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       setLoaging(true);
-      const res = await fetch('api/auth/signup', {
-        method: 'POST',
+      const res = await fetch("api/auth/signup", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
@@ -69,7 +69,7 @@ export default function SignUp() {
       setLoaging(false);
       setError(null);
 
-      navigate('/sign-in');
+      navigate("/sign-in");
     } catch (error) {
       setLoaging(false);
       setError(error.message);
@@ -188,7 +188,7 @@ export default function SignUp() {
                 id="regular"
                 name="privilege"
                 onChange={handleChange}
-                checked={privilege === 'regular'}
+                checked={privilege === "regular"}
                 maxLength={10}
               />
             </div>
@@ -202,7 +202,7 @@ export default function SignUp() {
                 id="auxiliar"
                 name="privilege"
                 onChange={handleChange}
-                checked={privilege === 'auxiliar'}
+                checked={privilege === "auxiliar"}
               />
             </div>
             <div className="flex gap-4">
@@ -215,7 +215,7 @@ export default function SignUp() {
                 id="publicador"
                 name="privilege"
                 onChange={handleChange}
-                checked={privilege === 'publicador'}
+                checked={privilege === "publicador"}
               />
             </div>
           </div>
@@ -226,7 +226,7 @@ export default function SignUp() {
           disabled={loaging}
           className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
         >
-          {loaging ? 'Carregando...' : 'Cadastrar'}
+          {loaging ? "Carregando..." : "Cadastrar"}
         </button>
       </form>
       <div className="flex mt-5 gap-2">

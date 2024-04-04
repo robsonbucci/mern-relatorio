@@ -1,34 +1,34 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React from "react";
+import { useSelector } from "react-redux";
 
 export default function Publisher() {
-  const { currentUser } = useSelector(state => state.user);
-  const [formData, setFormData] = React.useState({ privilege: 'publicador' });
+  const { currentUser } = useSelector((state) => state.user);
+  const [formData, setFormData] = React.useState({ privilege: "publicador" });
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     const { value, checked, type, id } = event.target;
-    if (type === 'radio') {
-      setFormData(prev => ({
+    if (type === "radio") {
+      setFormData((prev) => ({
         ...prev,
         privilege: value,
       }));
     } else {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        [id]: type === 'checkbox' ? checked : value,
+        [id]: type === "checkbox" ? checked : value,
         adminId: currentUser._id,
       }));
     }
   };
-  console.log('🚀  handleChange  formData:', formData);
+  console.log("🚀  handleChange  formData:", formData);
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('api/publisher', {
-        method: 'POST',
+      const res = await fetch("api/publisher", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
@@ -81,7 +81,7 @@ export default function Publisher() {
           <div className="flex gap-4">
             <input
               onChange={handleChange}
-              checked={formData.privilege === 'publicador'}
+              checked={formData.privilege === "publicador"}
               type="radio"
               name="privilege"
               id="publicador"
@@ -92,7 +92,7 @@ export default function Publisher() {
           <div className="flex gap-4">
             <input
               onChange={handleChange}
-              checked={formData.privilege === 'auxiliar'}
+              checked={formData.privilege === "auxiliar"}
               type="radio"
               name="privilege"
               id="auxiliar"
@@ -103,7 +103,7 @@ export default function Publisher() {
           <div className="flex gap-4">
             <input
               onChange={handleChange}
-              checked={formData.privilege === 'regular'}
+              checked={formData.privilege === "regular"}
               type="radio"
               name="privilege"
               id="regular"
