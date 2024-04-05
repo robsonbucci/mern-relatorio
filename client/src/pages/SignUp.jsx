@@ -6,7 +6,6 @@ export default function SignUp() {
   const [formData, setFormData] = React.useState({
     isSecretary: false,
     privilege: "publicador",
-    userType: "superintendente",
   });
   const [error, setError] = React.useState(false);
   const [loaging, setLoaging] = React.useState(false);

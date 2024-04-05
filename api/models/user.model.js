@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
-    userType: { type: String, required: true },
+    userType: { type: String, default: "superintendente" },
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
     phone: { type: Number, required: true, unique: true },
@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema(
       superintendentName: { type: String },
     },
   },
-  { timestamps: true, dropDups: true }
+  { timestamps: true, dropDups: true },
 );
 userSchema.index({ username: 1, email: 1 }, { unique: true });
 userSchema.index({ firstName: 1, lastName: 1 }, { unique: true });
@@ -38,7 +38,7 @@ userSchema.index(
     partialFilterExpression: {
       isSecretary: true,
     },
-  }
+  },
 );
 
 const User = mongoose.model("User", userSchema);

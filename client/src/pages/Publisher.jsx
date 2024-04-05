@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 
 export default function Publisher() {
   const { currentUser } = useSelector((state) => state.user);
-  const [formData, setFormData] = React.useState({ privilege: "publicador" });
+  const [formData, setFormData] = React.useState({ privilege: "publicador", status: "ativo" });
 
   const handleChange = (event) => {
     const { value, checked, type, id } = event.target;
@@ -16,11 +16,14 @@ export default function Publisher() {
       setFormData((prev) => ({
         ...prev,
         [id]: type === "checkbox" ? checked : value,
-        adminId: currentUser._id,
+        superintendent: {
+          _id: currentUser._id,
+          superintendentName: currentUser.superintendent.superintendentName,
+        },
       }));
     }
   };
-  console.log("🚀  handleChange  formData:", formData);
+  console.log("🚀  handleChange  formData:", JSON.stringify(formData, null, 2));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
