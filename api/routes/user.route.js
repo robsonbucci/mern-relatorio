@@ -2,6 +2,7 @@ import {
     createPublisher,
     getAllPublishersBySuperintendent,
     getSuperintendent,
+    updateSuperintendent,
 } from "../controllers/user.controller.js";
 import { verifyToken } from "../utils/verifuUser.js";
 
@@ -14,8 +15,9 @@ router.get(
     verifyToken,
     getAllPublishersBySuperintendent,
 );
+router.post("/superintendent/update/:id", verifyToken, updateSuperintendent);
 
-router.post("/publisher/:id", verifyToken, createPublisher);
 router.get("/publishers/:id", verifyToken, getAllPublishersBySuperintendent);
+router.post("/publisher/create/:id", verifyToken, createPublisher);
 
 export default router;
