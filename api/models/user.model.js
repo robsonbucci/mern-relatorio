@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema(
         congregationIdentity: { type: Number, required: true },
         congregationName: { type: String, required: true },
         congregationGroup: { type: String, required: true },
-        isSecretary: { type: Boolean, default: false },
+        isSecretary: { type: Boolean },
         privilege: { type: String, default: 0 },
         superintendent: {
             _id: { type: mongoose.Schema.Types.ObjectId, ref: "User" },

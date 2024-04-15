@@ -9,7 +9,7 @@ export default function SignUp() {
         avatar: "https://firebasestorage.googleapis.com/v0/b/mern-relatorio.appspot.com/o/user-128.png?alt=media&token=cb057f95-2b74-4a4f-ad91-f03a890317ef",
     });
     const [error, setError] = React.useState(false);
-    const [loaging, setLoaging] = React.useState(false);
+    const [loading, setLoading] = React.useState(false);
     const [isSecretary, setIsSecretary] = React.useState(false);
     const [privilege, setPrivilege] = React.useState("publicador");
     const [phone, setPhone] = React.useState("");
@@ -58,7 +58,7 @@ export default function SignUp() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            setLoaging(true);
+            setLoading(true);
             const res = await fetch("api/auth/signup", {
                 method: "POST",
                 headers: {
@@ -69,15 +69,15 @@ export default function SignUp() {
             const data = await res.json();
             if (data.success === false) {
                 setError(data.message);
-                setLoaging(false);
+                setLoading(false);
                 return;
             }
-            setLoaging(false);
+            setLoading(false);
             setError(null);
 
             navigate("/sign-in");
         } catch (error) {
-            setLoaging(false);
+            setLoading(false);
             setError(error.message);
         }
     };
@@ -253,10 +253,10 @@ export default function SignUp() {
                     <p className="text-red-500 my-3 text-center">{error}</p>
                 )}
                 <button
-                    disabled={loaging}
+                    disabled={loading}
                     className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
                 >
-                    {loaging ? "Carregando..." : "Cadastrar"}
+                    {loading ? "Carregando..." : "Cadastrar"}
                 </button>
             </form>
             <div className="flex mt-5 gap-2">

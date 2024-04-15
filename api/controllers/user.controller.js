@@ -3,75 +3,17 @@ import User from "../models/user.model.js";
 import { errorHandler } from "../utils/error.js";
 
 export const createPublisher = async (req, res, next) => {
-    const {
-        gender,
-        firstName,
-        lastName,
-        userType,
-        phone,
-        superintendent,
-        privilege,
-        status,
-    } = req.body;
-    const newPublisher = new Publisher({
-        gender,
-        firstName,
-        lastName,
-        userType,
-        phone,
-        superintendent,
-        privilege,
-        status,
-    });
-    try {
-        await newPublisher.save();
-        res.status(201).json({ message: "Publicador criado com sucesso" });
-    } catch (error) {
-        if (
-            error?.keyPattern?.superintendent === 1 &&
-            error?.keyPattern?.firstName === 1 &&
-            error?.keyPattern?.lastName === 1
-        ) {
-            const { congregationId } = await User.findById(
-                superintendent._id,
-            ).select("congregationId");
+    if (req.user.id !== req.params.id)
+        return next(
+            errorHandler(
+                401,
+                "Voce não tem permissão para realizar esta operação",
+            ),
+        );
 
-            return next(
-                new Error(
-                    errorHandler(
-                        409,
-                        "Este publicador está cadastro na congregação: " +
-                            congregationId,
-                    ),
-                ),
-            );
-        }
-        next(new Error(errorHandler(500, error.message)));
-    }
-};
+    const { ...rest } = req.body;
 
-export const createP = async (req, res, next) => {
-    const {
-        gender,
-        firstName,
-        lastName,
-        userType,
-        phone,
-        congregationIdentity,
-        congregationName,
-        congregationGroup,
-    } = req.body;
-
-    const newPublisher = new User({
-        gender,
-        firstName,
-        lastName,
-        userType,
-        phone,
-        congregationIdentity,
-        congregationName,
-        congregationGroup,
-    });
+    const newPublisher = new User({ ...rest });
 
     try {
         await newPublisher.save();
@@ -82,15 +24,25 @@ export const createP = async (req, res, next) => {
             error?.keyPattern?.congregationName === 1
         ) {
             return next(
-                new Error(
-                    errorHandler(
-                        409,
-                        "Este publicador está cadastro na congregação",
-                    ),
+                errorHandler(
+                    409,
+                    "Este publicador está cadastro na congregação: " +
+                        req.body.congregationName,
                 ),
             );
         }
-        next(new Error(errorHandler(500, error.message)));
+
+        if (error?.keyPattern?.phone === 1)
+            return next(errorHandler(409, "Este telefone está em uso"));
+
+        if (
+            error?.keyPattern?.firstName === 1 &&
+            error?.keyPattern?.lastName === 1
+        )
+            return next(
+                errorHandler(409, "Este nome e sobrenome já foram cadastrados"),
+            );
+        return next(errorHandler(500, error.message));
     }
 };
 
@@ -105,10 +57,9 @@ export const getSuperintendent = async (req, res) => {
         });
         res.json({ result });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({
-            message: "Ocorreu um erro ao buscar os superintendentes.",
-        });
+        return next(
+            errorHandler(500, "Ocorreu um erro ao buscar os superintendentes."),
+        );
     }
 };
 
@@ -124,9 +75,7 @@ export const getPublisher = async (req, res) => {
         res.json({ result });
     } catch (error) {
         console.error(error);
-        res.status(500).json({
-            message: "Ocorreu um erro ao buscar o usuário.",
-        });
+        return next(errorHandler(500, "Ocorreu um erro ao buscar o usuário."));
     }
 };
 
@@ -142,7 +91,7 @@ export const getAllPublishersBySuperintendent = async (req, res, next) => {
         );
 
     try {
-        const user = await User.find({ "superintendent._id": id });
+        const user = await User.find({ userType: "superintendente" });
         const result = user.map((user) => {
             const { password, avatar, ...rest } = user._doc;
             return rest;
@@ -150,8 +99,8 @@ export const getAllPublishersBySuperintendent = async (req, res, next) => {
         res.json({ result });
     } catch (error) {
         console.error(error);
-        res.status(500).json({
-            message: "Ocorreu um erro ao buscar os publicadores.",
-        });
+        return next(
+            errorHandler(500, "Ocorreu um erro ao buscar os publicadores."),
+        );
     }
 };
