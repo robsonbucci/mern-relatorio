@@ -104,7 +104,7 @@ export default function SignUp() {
             className="border p-3 rounded-lg"
             id="phone"
             value={phone}
-            onChange={({ target }) => handleChange({ target })}
+            onChange={handleChange}
             maxLength={14}
           />
         </fieldset>

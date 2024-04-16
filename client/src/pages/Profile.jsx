@@ -21,7 +21,9 @@ export default function Profile() {
   const [file, setFile] = React.useState(undefined);
   const [filePerc, setFilePerc] = React.useState(0);
   const [fileUploadError, setFileUploadError] = React.useState(false);
-  const [formData, setFormData] = React.useState({});
+  const [formData, setFormData] = React.useState({
+    avatar: currentUser.avatar,
+  });
   const [isSecretary, setIsSecretary] = React.useState(currentUser.isSecretary);
   const [privilege, setPrivilege] = React.useState(currentUser.privilege);
   const [updateSuccess, setUpdateSuccess] = React.useState(false);
@@ -84,6 +86,7 @@ export default function Profile() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setUpdateSuccess(false);
 
     try {
       dispatch(updateSuperintendentStart());
