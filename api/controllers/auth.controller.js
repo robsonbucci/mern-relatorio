@@ -2,7 +2,6 @@ import User from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
 import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
-import { createPublisher } from "./user.controller.js";
 
 export const signup = async (req, res, next) => {
   const { password, ...rest } = req.body;
@@ -62,7 +61,7 @@ export const signin = async (req, res, next) => {
       return next(new Error(errorHandler(404, "usuário ou senha inválidos")));
     const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
 
-    const { password: pass, ...rest } = validUser._doc;
+    const { password, ...rest } = validUser._doc;
     res
       .cookie("access_token", token, { httpOnly: true })
       .status(200)
