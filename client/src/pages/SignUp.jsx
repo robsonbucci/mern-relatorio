@@ -76,9 +76,9 @@ export default function SignUp() {
   };
 
   return (
-    <div className="p-3 mx-w-lg mx-auto">
+    <div className="p-3 mx-w-lg max-w-xl mx-auto">
       <h1 className="text-3xl text-center font-semibold my-7">Cadastro</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4 ">
         <fieldset className="flex flex-col gap-4 border p-3">
           <legend className="text-lg font-semibold">
             Informações Pessoais

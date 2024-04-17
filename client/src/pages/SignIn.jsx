@@ -40,7 +40,7 @@ export default function SignIn() {
   };
 
   return (
-    <div className="p-3 mx-w-lg mx-auto">
+    <div className="p-3 mx-w-lg max-w-xl mx-auto">
       <h1 className="text-3xl text-center font-semibold my-7">Entrar</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
