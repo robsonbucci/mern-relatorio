@@ -3,7 +3,9 @@ import { useSelector } from "react-redux";
 
 export default function Publisher() {
   const { currentUser } = useSelector((state) => state.user);
+  console.log("🚀 ~ Publisher ~ currentUser:", currentUser);
   const [formData, setFormData] = React.useState({
+    userType: "publicador",
     privilege: "publicador",
     status: "ativo",
     gender: "m",
@@ -16,8 +18,6 @@ export default function Publisher() {
   const [loading, setLoading] = React.useState(false);
   const [createSuccess, setCreateSuccess] = React.useState(false);
   const [phone, setPhone] = React.useState("");
-
-  console.log("🚀 ~ Publisher ~ currentUser:", currentUser);
 
   const handlePhoneChange = (input) => {
     let formattedInput;

@@ -10,6 +10,9 @@ import { useDispatch } from "react-redux";
 
 import { app } from "../firebase";
 import {
+  deleteSuperintendentFailure,
+  deleteSuperintendentStart,
+  deleteSuperintendentSuccess,
   updateSuperintendentFailure,
   updateSuperintendentStart,
   updateSuperintendentSuccess,
@@ -82,6 +85,26 @@ export default function Profile() {
     }
 
     setFormData(updatedFormData);
+  };
+
+  const handleDeleteUser = async () => {
+    try {
+      dispatch(deleteSuperintendentStart());
+      const res = await fetch(
+        `api/user/superintendent/delete/${currentUser._id}`,
+        {
+          method: "DELETE",
+        },
+      );
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(deleteSuperintendentFailure(data.message));
+        return;
+      }
+      dispatch(deleteSuperintendentSuccess(data));
+    } catch (error) {
+      dispatch(deleteSuperintendentFailure(error.message));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -257,7 +280,12 @@ export default function Profile() {
         </button>
       </form>
       <div className="flex justify-between mt-5">
-        <span className="text-red-700 cursor-pointer">Deletar conta</span>
+        <span
+          onClick={handleDeleteUser}
+          className="text-red-700 cursor-pointer"
+        >
+          Deletar conta
+        </span>
         <span className="text-red-700 cursor-pointer">Sair</span>
       </div>
     </div>

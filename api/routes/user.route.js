@@ -1,8 +1,9 @@
 import {
-    createPublisher,
-    getAllPublishersBySuperintendent,
-    getSuperintendent,
-    updateSuperintendent,
+  createPublisher,
+  deleteSuperintendent,
+  getAllPublishersBySuperintendent,
+  getSuperintendent,
+  updateSuperintendent,
 } from "../controllers/user.controller.js";
 import { verifyToken } from "../utils/verifuUser.js";
 
@@ -11,11 +12,12 @@ const router = express.Router();
 
 router.get("/superintendent/:id", verifyToken, getSuperintendent);
 router.get(
-    "/superintendents/:id",
-    verifyToken,
-    getAllPublishersBySuperintendent,
+  "/superintendents/:id",
+  verifyToken,
+  getAllPublishersBySuperintendent,
 );
 router.post("/superintendent/update/:id", verifyToken, updateSuperintendent);
+router.delete("/superintendent/delete/:id", verifyToken, deleteSuperintendent);
 
 router.get("/publishers/:id", verifyToken, getAllPublishersBySuperintendent);
 router.post("/publisher/create/:id", verifyToken, createPublisher);

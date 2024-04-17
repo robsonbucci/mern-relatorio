@@ -83,7 +83,10 @@ export const deleteSuperintendent = async (req, res, next) => {
 
   try {
     await User.findByIdAndDelete(req.params.id);
-    res.status(200).json("Publicador excluído com sucesso");
+    res
+      .status(200)
+      .clearCookie("access_token")
+      .json("Superintendente excluído com sucesso");
   } catch (error) {
     next(error);
   }
