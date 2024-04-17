@@ -13,6 +13,9 @@ import {
   deleteSuperintendentFailure,
   deleteSuperintendentStart,
   deleteSuperintendentSuccess,
+  signOutSuperintendentFailure,
+  signOutSuperintendentStart,
+  signOutSuperintendentSuccess,
   updateSuperintendentFailure,
   updateSuperintendentStart,
   updateSuperintendentSuccess,
@@ -104,6 +107,21 @@ export default function Profile() {
       dispatch(deleteSuperintendentSuccess(data));
     } catch (error) {
       dispatch(deleteSuperintendentFailure(error.message));
+    }
+  };
+
+  const handleSignOut = async () => {
+    try {
+      dispatch(signOutSuperintendentStart());
+      const res = await fetch("api/auth/signout");
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(signOutSuperintendentFailure(data.message));
+        return;
+      }
+      dispatch(signOutSuperintendentSuccess(data));
+    } catch (error) {
+      dispatch(signOutSuperintendentFailure(error.message));
     }
   };
 
@@ -286,7 +304,9 @@ export default function Profile() {
         >
           Deletar conta
         </span>
-        <span className="text-red-700 cursor-pointer">Sair</span>
+        <span onClick={handleSignOut} className="text-red-700 cursor-pointer">
+          Sair
+        </span>
       </div>
     </div>
   );
