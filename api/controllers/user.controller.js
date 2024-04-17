@@ -75,6 +75,20 @@ export const updateSuperintendent = async (req, res, next) => {
   }
 };
 
+export const deleteSuperintendent = async (req, res, next) => {
+  if (req.user.id !== req.params.id)
+    return next(
+      errorHandler(401, "Voce não tem permissão para realizar esta operação"),
+    );
+
+  try {
+    await User.findByIdAndDelete(req.params.id);
+    res.status(200).json("Publicador excluído com sucesso");
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const getSuperintendent = async (req, res) => {
   const { id } = req.params;
 
