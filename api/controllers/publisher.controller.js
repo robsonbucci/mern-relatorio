@@ -1,6 +1,7 @@
 import { FaJarWheat } from "react-icons/fa6";
 import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
+import { errorHandler } from "../utils/error.js";
 
 export const signinPublisher = async (req, res, next) => {
   const { phone } = req.body;
