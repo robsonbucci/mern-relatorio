@@ -34,12 +34,9 @@ const Report = () => {
     participated: false,
     year: dataAtual.getFullYear(),
   });
-  console.log("🚀 ~ Report ~ currentMonth:", currentMonth);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(false);
   const [auth, setAuth] = React.useState(false);
-
-  console.log("🚀 ~ Report ~ formData:", formData);
 
   const handleChange = ({ target }) => {
     const { id, checked, value, name } = target;
@@ -127,7 +124,9 @@ const Report = () => {
 
   return (
     <div className="p-3 mx-w-lg max-w-xl mx-auto">
-      <h1 className="text-3xl text-center font-semibold my-7">Relatório</h1>
+      <h1 className="text-3xl text-center font-semibold my-7">
+        Relatório de Campo
+      </h1>
       <form className="flex flex-col gap-5">
         <InputPhone
           disabled={auth}

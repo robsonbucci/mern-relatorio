@@ -33,7 +33,7 @@ export default function SignIn() {
         return;
       }
       dispatch(signInSuccess(data));
-      navigate("/");
+      navigate("/publisher/list");
     } catch (error) {
       dispatch(signInFailure(error.message));
     }
