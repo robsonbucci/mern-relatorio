@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import userRouter from "./routes/user.route.js";
 import authRouter from "./routes/auth.route.js";
 import publisherRouter from "./routes/publisher.route.js";
+import ministryRouter from "./routes/ministry.route.js";
 
 import cookieParser from "cookie-parser";
 // import publisherRouter from './routes/publisher.route..js';
@@ -27,6 +28,7 @@ app.listen(3000, () => {
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/publisher", publisherRouter);
+app.use("/api/ministry", ministryRouter);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;

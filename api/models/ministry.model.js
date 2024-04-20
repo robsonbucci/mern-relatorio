@@ -1,18 +1,27 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-// Esquema para a tabela 'ministery'
-const ministerySchema = new mongoose.Schema(
+// Esquema para a tabela ''
+const ministrySchema = new mongoose.Schema(
   {
-    ministeryObservation: { type: String },
-    ministeryAno: { type: Number, required: true },
-    ministeryMes: { type: Number, required: true },
-    ministeryHour: { type: Number, required: true },
-    ministeryStudy: { type: Number, required: true },
-    ministeryParticipation: { type: Boolean, required: true },
-    ministeryUserId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    observation: { type: String },
+    year: { type: Number, required: true },
+    month: { type: Number, required: true },
+    hour: { type: Number },
+    ldcHour: { type: Number },
+    study: { type: Number },
+    participated: { type: Boolean, required: true },
+    publisher: {
+      _id: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+      publisherName: { type: String },
+    },
   },
-  { timestamps: true }
+  { timestamps: true, collection: "ministry" },
 );
 
-const Ministery = mongoose.model('Ministery', ministerySchema);
-export default Ministery;
+ministrySchema.index(
+  { "Publisher._id": 1, year: 1, month: 1 },
+  { unique: true },
+);
+
+const Ministry = mongoose.model("Ministry", ministrySchema);
+export default Ministry;
