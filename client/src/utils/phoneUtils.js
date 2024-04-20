@@ -1,4 +1,5 @@
 const formatPhoneNumber = (phoneNumberString) => {
+  console.log("🚀 ~ formatPhoneNumber ~ phoneNumberString:", phoneNumberString);
   // Remove todos os caracteres não numéricos
   const cleaned = phoneNumberString.replace(/\D/g, "");
 

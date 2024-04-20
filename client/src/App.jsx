@@ -5,6 +5,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import Publisher from "./pages/Publisher";
+import Finished from "./pages/publisher/Finished";
 import Report from "./pages/publisher/Report";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
@@ -17,6 +18,7 @@ function App() {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/report" element={<Report />} />
+        <Route path="/finished" element={<Finished />} />
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
           <Route path="/publisher" element={<Publisher />} />
