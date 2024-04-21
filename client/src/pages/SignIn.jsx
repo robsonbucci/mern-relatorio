@@ -13,6 +13,7 @@ export default function SignIn() {
   const navigate = useNavigate();
   const [formData, setFormData] = React.useState({});
   const { error, loaging } = useSelector((state) => state.user);
+
   const handleChange = ({ target }) => {
     setFormData({ ...formData, [target.id]: target.value });
   };

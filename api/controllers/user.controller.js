@@ -133,7 +133,7 @@ export const getAllPublishersBySuperintendent = async (req, res, next) => {
     );
 
   try {
-    const user = await User.find({ userType: "superintendente" });
+    const user = await User.find({ "superintendent._id": id });
     const result = user.map((user) => {
       const { password, avatar, ...rest } = user._doc;
       return rest;
