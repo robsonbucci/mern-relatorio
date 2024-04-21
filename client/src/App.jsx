@@ -19,11 +19,11 @@ function App() {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/report" element={<Report />} />
-        <Route path="/publisher/list" element={<List />} />
+        <Route path="/publisher/create" element={<Publisher />} />
         <Route path="/finished" element={<Finished />} />
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
-          <Route path="/publisher" element={<Publisher />} />
+          <Route path="/publishers" element={<List />} />
         </Route>
       </Routes>
     </BrowserRouter>

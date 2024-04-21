@@ -19,7 +19,7 @@ export default function Header() {
               Home
             </li>
           </Link>
-          <Link to="/publisher">
+          <Link to="/publishers">
             <li className="text-slate-700 hover:underline">Publicadores</li>
           </Link>
           <Link to="/profile">

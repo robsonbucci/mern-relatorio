@@ -34,7 +34,7 @@ export default function SignIn() {
         return;
       }
       dispatch(signInSuccess(data));
-      navigate("/publisher/list");
+      navigate("/publisher");
     } catch (error) {
       dispatch(signInFailure(error.message));
     }

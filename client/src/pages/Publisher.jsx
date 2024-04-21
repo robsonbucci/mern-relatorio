@@ -1,9 +1,9 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 export default function Publisher() {
   const { currentUser } = useSelector((state) => state.user);
-  console.log("🚀 ~ Publisher ~ currentUser:", currentUser);
   const [formData, setFormData] = React.useState({
     userType: "publicador",
     privilege: "publicador",
@@ -181,8 +181,12 @@ export default function Publisher() {
         </button>
       </form>
       <div className="flex justify-between mt-5">
-        <span className="text-red-700 cursor-pointer">listar Publicadores</span>
-        <span className="text-red-700 cursor-pointer">Cancelar</span>
+        <Link to="/publishers" className="text-red-700 cursor-pointer">
+          listar Publicadores
+        </Link>
+        <Link to="/publishers" className="text-red-700 cursor-pointer">
+          Cancelar
+        </Link>
       </div>
     </div>
   );
