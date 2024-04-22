@@ -7,10 +7,11 @@ import Profile from "./pages/Profile";
 import Publisher from "./pages/Publisher";
 import Finished from "./pages/publisher/Finished";
 import List from "./pages/publisher/List";
-import Report from "./pages/publisher/Report";
-import ReportList from "./pages/publisher/ReportList";
+import CreateReport from "./pages/report/CreateReport";
+import ListReport from "./pages/report/ListReport";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
+
 function App() {
   return (
     <BrowserRouter>
@@ -19,9 +20,9 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/report" element={<Report />} />
+        <Route path="/report/create" element={<CreateReport />} />
+        <Route path="/report/list" element={<ListReport />} />
         <Route path="/publisher/create" element={<Publisher />} />
-        <Route path="/publisher/report" element={<ReportList />} />
         <Route path="/finished" element={<Finished />} />
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />

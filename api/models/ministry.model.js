@@ -23,7 +23,7 @@ const ministrySchema = new mongoose.Schema(
 );
 
 ministrySchema.index(
-  { "Publisher._id": 1, year: 1, month: 1 },
+  { "publisher._id": 1, year: 1, month: 1 },
   { unique: true },
 );
 

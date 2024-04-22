@@ -1,7 +1,7 @@
 import React from "react";
 
-import Report from "./publisher/Report";
+import CreateReport from "./report/CreateReport";
 
 export default function Home() {
-  return <Report />;
+  return <CreateReport />;
 }

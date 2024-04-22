@@ -5,7 +5,7 @@ import Input from "../../shared/inputs/Input";
 import InputPhone from "../../shared/inputs/InputPhone.jsx";
 import formatPhoneNumber from "../../utils/phoneUtils.js";
 
-const Report = () => {
+const CreateReport = () => {
   const dataAtual = new Date();
   const currentMonth = dataAtual.getMonth();
   const lastMonth = currentMonth === 0 ? 11 : currentMonth - 1;
@@ -263,4 +263,4 @@ const Report = () => {
   );
 };
 
-export default Report;
+export default CreateReport;
