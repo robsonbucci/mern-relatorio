@@ -1,4 +1,3 @@
-import { FaJarWheat } from "react-icons/fa6";
 import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 import { errorHandler } from "../utils/error.js";
@@ -16,6 +15,7 @@ export const signinPublisher = async (req, res, next) => {
       );
     const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
     const { password, avatar, ...rest } = validUser._doc;
+
     res
       .cookie("publisher_token", token, { httpOnly: true })
       .status(200)

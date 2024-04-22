@@ -43,7 +43,7 @@ export const signup = async (req, res, next) => {
     );
     if (errorKey) {
       const errorMessage = errorCodes[errorKey];
-      return next(new Error(errorHandler(409, errorMessage)));
+      return next(errorHandler(409, errorMessage));
     }
 
     next(error);
@@ -54,14 +54,13 @@ export const signin = async (req, res, next) => {
   const { email } = req.body;
   try {
     const validUser = await User.findOne({ email });
-    if (!validUser)
-      return next(new Error(errorHandler(404, "Usuário não encontrado")));
+    if (!validUser) return next(errorHandler(404, "Usuário não encontrado"));
     const validPassword = bcryptjs.compareSync(
       req.body.password,
       validUser.password,
     );
     if (!validPassword)
-      return next(new Error(errorHandler(404, "usuário ou senha inválidos")));
+      return next(errorHandler(404, "usuário ou senha inválidos"));
     const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
 
     const { password, ...rest } = validUser._doc;

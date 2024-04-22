@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 export default function Publisher() {
   const { currentUser } = useSelector((state) => state.user);
+
   const [formData, setFormData] = React.useState({
     userType: "publicador",
     privilege: "publicador",

@@ -47,7 +47,9 @@ const List = () => {
           + Adicionar Publicador
         </Link>
 
-        <Link className="text-red-700 cursor-pointer">Acessar Relatorio</Link>
+        <Link to="/publisher/report" className="text-red-700 cursor-pointer">
+          Acessar Relatorio
+        </Link>
       </div>
     </>
   );

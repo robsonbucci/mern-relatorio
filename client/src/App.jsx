@@ -8,6 +8,7 @@ import Publisher from "./pages/Publisher";
 import Finished from "./pages/publisher/Finished";
 import List from "./pages/publisher/List";
 import Report from "./pages/publisher/Report";
+import ReportList from "./pages/publisher/ReportList";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 function App() {
@@ -20,6 +21,7 @@ function App() {
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/report" element={<Report />} />
         <Route path="/publisher/create" element={<Publisher />} />
+        <Route path="/publisher/report" element={<ReportList />} />
         <Route path="/finished" element={<Finished />} />
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />

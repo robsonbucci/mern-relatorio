@@ -11,8 +11,12 @@ const ministrySchema = new mongoose.Schema(
     study: { type: Number },
     participated: { type: Boolean, required: true },
     publisher: {
-      _id: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-      publisherName: { type: String },
+      _id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+      },
+      publisherName: { type: String, required: true },
     },
   },
   { timestamps: true, collection: "ministry" },

@@ -29,11 +29,13 @@ const Report = () => {
 
   const [participated, setParticipated] = React.useState(false);
   const [publisher, setPublisher] = React.useState(false);
+
   const [formData, setFormData] = React.useState({
     month: currentMonth,
     participated: false,
     year: dataAtual.getFullYear(),
   });
+
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(false);
   const [auth, setAuth] = React.useState(false);
@@ -41,6 +43,7 @@ const Report = () => {
   const handleChange = ({ target }) => {
     const { id, checked, value, name } = target;
     let updatedFormData = { ...formData };
+
     if (id === "phone") {
       const formatPhone = formatPhoneNumber(value);
       updatedFormData[id] = formatPhone;
@@ -90,6 +93,14 @@ const Report = () => {
       setError(null);
       setAuth(true);
       setPublisher({ ...data });
+
+      const publisherObj = {
+        publisher: {
+          _id: data._id,
+          publisherName: `${data.firstName} ${data.lastName}`,
+        },
+      };
+      setFormData({ ...formData, ...publisherObj });
     } catch (error) {
       setLoading(false);
       setError(error.message);
@@ -98,9 +109,10 @@ const Report = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       setLoading(true);
-      const res = await fetch("api/ministry/create", {
+      const res = await fetch(`api/ministry/create/${publisher._id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -58,6 +58,19 @@ const userSlice = createSlice({
       state.error = action.payload;
       state.loading = false;
     },
+
+    signInPublisherStart: (state) => {
+      state.loading = true;
+    },
+    signInPublisherSuccess: (state, action) => {
+      state.currentUser = action.payload;
+      state.loading = false;
+      state.error = null;
+    },
+    signInPublisherFailure: (state, action) => {
+      state.error = action.payload;
+      state.loading = false;
+    },
   },
 });
 
@@ -74,5 +87,8 @@ export const {
   signOutSuperintendentStart,
   signOutSuperintendentSuccess,
   signOutSuperintendentFailure,
+  signInPublisherStart,
+  signInPublisherSuccess,
+  signInPublisherFailure,
 } = userSlice.actions;
 export default userSlice.reducer;
