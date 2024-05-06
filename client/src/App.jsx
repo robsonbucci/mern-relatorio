@@ -8,7 +8,7 @@ import Publisher from "./pages/Publisher";
 import Finished from "./pages/publisher/Finished";
 import List from "./pages/publisher/List";
 import CreateReport from "./pages/report/CreateReport";
-import ListReport from "./pages/report/ListReport";
+import ReportList from "./pages/report/ReportList";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 
@@ -21,7 +21,7 @@ function App() {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/report/create" element={<CreateReport />} />
-        <Route path="/report/list" element={<ListReport />} />
+        <Route path="/report/list" element={<ReportList />} />
         <Route path="/publisher/create" element={<Publisher />} />
         <Route path="/finished" element={<Finished />} />
         <Route element={<PrivateRoute />}>
