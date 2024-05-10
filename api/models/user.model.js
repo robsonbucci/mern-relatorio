@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: true, dropDups: true },
 );
-userSchema.index({ email: 1 }, { unique: true });
+
 userSchema.index({ firstName: 1, lastName: 1 }, { unique: true });
 userSchema.index(
   {
