@@ -65,7 +65,7 @@ export default function Publisher() {
     setError(false);
     setLoading(true);
     try {
-      const res = await fetch(`api/user/publisher/create/${currentUser._id}`, {
+      const res = await fetch(`/api/user/publisher/create/${currentUser._id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
