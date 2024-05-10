@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema(
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
     phone: { type: Number, unique: true },
-    username: { type: String, unique: true },
+    username: { type: String },
     email: { type: String, unique: true },
     password: { type: String },
     avatar: { type: String },
@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: true, dropDups: true },
 );
-userSchema.index({ username: 1, email: 1 }, { unique: true });
+userSchema.index({ email: 1 }, { unique: true });
 userSchema.index({ firstName: 1, lastName: 1 }, { unique: true });
 userSchema.index(
   {
