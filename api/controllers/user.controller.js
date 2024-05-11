@@ -1,3 +1,4 @@
+import Publisher from "../models/publiser.model.js";
 import User from "../models/user.model.js";
 import { errorHandler } from "../utils/error.js";
 import bcryptjs from "bcryptjs";
@@ -8,11 +9,23 @@ export const createPublisher = async (req, res, next) => {
       errorHandler(401, "Voce não tem permissão para realizar esta operação"),
     );
 
-  const { ...rest } = req.body;
-
-  const newPublisher = new User({ ...rest });
+  const { ...userData } = req.body;
 
   try {
+    const existingPublisher = await Publisher.findOne({
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+    });
+
+    if (existingPublisher) {
+      return next(
+        errorHandler(409, "Um publicador com o mesmo nome já existe"),
+      );
+    }
+
+    const newPublisher = new Publisher({ ...userData });
+    await newPublisher.save();
+
     await newPublisher.save();
     res.status(201).json({ message: "Publicador criado com sucesso" });
   } catch (error) {

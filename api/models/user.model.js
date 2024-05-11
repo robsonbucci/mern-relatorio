@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
+    active: { type: Boolean, default: true },
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
     privilege: { type: String, default: 0 },
@@ -13,7 +14,6 @@ const userSchema = new mongoose.Schema(
         type: mongoose.Schema.Types.ObjectId,
         ref: "Superintendent",
       },
-      name: String,
     },
   },
   { timestamps: true },

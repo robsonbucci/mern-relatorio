@@ -5,6 +5,7 @@ export default function SignUp() {
   const navigate = useNavigate();
   const [formData, setFormData] = React.useState({
     isSecretary: false,
+    active: true,
     privilege: "publicador",
     avatar:
       "https://firebasestorage.googleapis.com/v0/b/mern-relatorio.appspot.com/o/user-128.png?alt=media&token=cb057f95-2b74-4a4f-ad91-f03a890317ef",

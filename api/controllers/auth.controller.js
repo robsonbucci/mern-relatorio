@@ -23,15 +23,17 @@ export const signup = async (req, res, next) => {
     }
 
     // Verifica se já existe um secretário para a mesma congregação
-    const existingSecretary = await Superintendent.findOne({
-      congregationIdentity: userData.congregationIdentity,
-      isSecretary: true,
-    });
+    if (userData.isSecretary) {
+      const existingSecretary = await Superintendent.findOne({
+        congregationIdentity: userData.congregationIdentity,
+        isSecretary: true,
+      });
 
-    if (userData.isSecretary && existingSecretary) {
-      return next(
-        errorHandler(409, "Já existe um secretário para esta congregação"),
-      );
+      if (existingSecretary) {
+        return next(
+          errorHandler(409, "Já existe um secretário para esta congregação"),
+        );
+      }
     }
 
     const newSuperintendent = new Superintendent({
@@ -52,7 +54,6 @@ export const signup = async (req, res, next) => {
   } catch (error) {
     const errorCodes = {
       congregationId: "Já há um secretário cadastrado na congregação informada",
-      username: "Este nome de usuário já existe",
       email: "Este e-mail já existe",
       phone: "Este telefone já existe",
     };

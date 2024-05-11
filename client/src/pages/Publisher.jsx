@@ -7,12 +7,12 @@ export default function Publisher() {
 
   const [formData, setFormData] = React.useState({
     privilege: "publicador",
-    status: "ativo",
     gender: "m",
     email: null,
     congregationIdentity: currentUser.congregationIdentity,
     congregationName: currentUser.congregationName,
     congregationGroup: currentUser.congregationGroup,
+    active: true,
   });
 
   const [error, setError] = React.useState(false);
@@ -33,7 +33,7 @@ export default function Publisher() {
   };
 
   const handleChange = (event) => {
-    const { value, checked, type, id } = event.target;
+    const { value, checked, type, id, name } = event.target;
 
     if (id === "phone") {
       const phoneInput = value.replace(/\D/g, "");
@@ -42,7 +42,13 @@ export default function Publisher() {
         ...prev,
         [id]: phoneInput,
       }));
-    } else if (type === "radio") {
+    } else if (type === "radio" && name === "active") {
+      console.log("active", value);
+      setFormData((prev) => ({
+        ...prev,
+        active: value === "true",
+      }));
+    } else if (type === "radio" && name === "privilege") {
       setFormData((prev) => ({
         ...prev,
         privilege: value,
@@ -78,6 +84,7 @@ export default function Publisher() {
 
       if (data.success === false) {
         setError(data.message);
+        setLoading(false);
         return;
       }
 
@@ -138,7 +145,6 @@ export default function Publisher() {
               checked={formData.privilege === "publicador"}
               type="radio"
               name="privilege"
-              id="publicador"
               value="publicador"
             />
             <label htmlFor="publicador">Publicador</label>
@@ -149,7 +155,6 @@ export default function Publisher() {
               checked={formData.privilege === "auxiliar"}
               type="radio"
               name="privilege"
-              id="auxiliar"
               value="auxiliar"
             />
             <label htmlFor="auxiliar">Pioneiro auxiliar</label>
@@ -160,12 +165,40 @@ export default function Publisher() {
               checked={formData.privilege === "regular"}
               type="radio"
               name="privilege"
-              id="regular"
               value="regular"
             />
             <label htmlFor="regular">Pioneiro regular</label>
           </div>
         </fieldset>
+
+        <div className="flex gap-4 mr-3">
+          Publicador ativo?
+          <label className="cursor-pointer text-slate-700" htmlFor="activeTrue">
+            <span className="mr-1 ">Sim</span>
+            <input
+              type="radio"
+              name="active"
+              id="activeTrue"
+              value="true"
+              checked={formData.active === true}
+              onChange={handleChange}
+            />
+          </label>
+          <label
+            className="cursor-pointer text-slate-700"
+            htmlFor="activeFalse"
+          >
+            <span className="mr-1 ">Não</span>
+            <input
+              type="radio"
+              name="active"
+              id="activeFalse"
+              value="false"
+              checked={formData.active === false}
+              onChange={handleChange}
+            />
+          </label>
+        </div>
 
         {error && <p className="text-red-500 my-3 text-center">{error}</p>}
         {createSuccess && (
