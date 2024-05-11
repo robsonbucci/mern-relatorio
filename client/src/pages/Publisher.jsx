@@ -6,10 +6,10 @@ export default function Publisher() {
   const { currentUser } = useSelector((state) => state.user);
 
   const [formData, setFormData] = React.useState({
-    userType: "publicador",
     privilege: "publicador",
     status: "ativo",
     gender: "m",
+    email: null,
     congregationIdentity: currentUser.congregationIdentity,
     congregationName: currentUser.congregationName,
     congregationGroup: currentUser.congregationGroup,
@@ -61,6 +61,7 @@ export default function Publisher() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     setCreateSuccess(false);
     setError(false);
     setLoading(true);

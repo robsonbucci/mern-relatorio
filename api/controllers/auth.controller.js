@@ -2,34 +2,53 @@ import User from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
 import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
+import Superintendent from "../models/superintendent.model.js";
 
 export const signup = async (req, res, next) => {
-  const { password, ...rest } = req.body;
+  const { password, ...userData } = req.body;
 
   const hashedPassword = bcryptjs.hashSync(password, 10);
 
   try {
-    const newUser = new User({
-      password: hashedPassword,
-      ...rest,
+    // Verifica se já existe um superintendente com o mesmo nome
+    const existingSuperintendent = await Superintendent.findOne({
+      firstName: userData.firstName,
+      lastName: userData.lastName,
     });
 
-    const superintendent = await newUser.save();
+    if (existingSuperintendent) {
+      return next(
+        errorHandler(409, "Um superintendente com o mesmo nome já existe"),
+      );
+    }
 
-    await User.updateOne(
-      { _id: superintendent._id },
-      {
-        $set: {
-          superintendent: {
-            _id: superintendent._id,
-            superintendentName: `${superintendent.firstName} ${superintendent.lastName}`,
-          },
-        },
+    // Verifica se já existe um secretário para a mesma congregação
+    const existingSecretary = await Superintendent.findOne({
+      congregationIdentity: userData.congregationIdentity,
+      isSecretary: true,
+    });
+
+    if (userData.isSecretary && existingSecretary) {
+      return next(
+        errorHandler(409, "Já existe um secretário para esta congregação"),
+      );
+    }
+
+    const newSuperintendent = new Superintendent({
+      password: hashedPassword,
+      ...userData,
+    });
+
+    const superintendent = await newSuperintendent.save();
+
+    await Superintendent.findByIdAndUpdate(superintendent._id, {
+      superintendent: {
+        _id: superintendent._id,
+        name: `${superintendent.firstName} ${superintendent.lastName}`,
       },
-      { new: true }, // retorna documento atualizado
-    );
+    });
 
-    res.status(201).json({ message: "Usuário criado com sucesso" });
+    res.status(201).json({ message: "Superintendente criado com sucesso" });
   } catch (error) {
     const errorCodes = {
       congregationId: "Já há um secretário cadastrado na congregação informada",
@@ -45,7 +64,6 @@ export const signup = async (req, res, next) => {
       const errorMessage = errorCodes[errorKey];
       return next(errorHandler(409, errorMessage));
     }
-
     next(error);
   }
 };
